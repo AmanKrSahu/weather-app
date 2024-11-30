@@ -5,6 +5,7 @@ import { useForecastQuery, useWeatherQuery } from "@/hooks/use-weather";
 
 import CurrentWeather from "@/components/current-weather";
 import WeatherDetails from "@/components/weather-details";
+import FavoriteButton from "@/components/favorite-button";
 import WeatherForecast from "@/components/weather-forecast";
 import WeatherSkeleton from "@/components/loading-skeleton";
 import HourlyTemperature from "@/components/hourly-temperature";
@@ -42,12 +43,18 @@ const CityPage = () => {
         <h1 className="text-3xl font-bold tracking-tight">
           {params.cityName}, {weatherQuery.data.sys.country}
         </h1>
-        <div>{/* favorite button */}</div>
+        <div className="flex gap-2">
+          <FavoriteButton
+            data={{ ...weatherQuery.data, name: params.cityName }}
+          />
+        </div>
       </div>
 
       <div className="grid gap-6">
-        <CurrentWeather data={weatherQuery.data} />
-        <HourlyTemperature data={forecastQuery.data} />
+        <div className="flex flex-col lg:flex-row gap-4">
+          <CurrentWeather data={weatherQuery.data} />
+          <HourlyTemperature data={forecastQuery.data} />
+        </div>
         <div className="grid gap-6 lg:grid-cols-2 items-start">
           <WeatherDetails data={weatherQuery.data} />
           <WeatherForecast data={forecastQuery.data} />
