@@ -12,9 +12,10 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import CurrentWeather from "@/components/current-weather";
 import WeatherDetails from "@/components/weather-details";
+import FavoriteCities from "@/components/favorite-cities";
 import WeatherSkeleton from "@/components/loading-skeleton";
-import HourlyTemperature from "@/components/hourly-temperature";
 import WeatherForecast from "@/components/weather-forecast";
+import HourlyTemperature from "@/components/hourly-temperature";
 
 const WeatherDashboard = () => {
   const {
@@ -97,7 +98,7 @@ const WeatherDashboard = () => {
 
   return (
     <div className="space-y-4">
-      {/* Favourite Cities */}
+      <FavoriteCities />
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold tracking-tight">My Location</h1>
         <Button

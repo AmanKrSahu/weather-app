@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useFavorite } from "@/hooks/use-favorite";
 import { useLocationSearch } from "@/hooks/use-weather";
 import { useSearchHistory } from "@/hooks/use-search-history";
 
@@ -13,15 +14,16 @@ import {
   CommandList,
   CommandSeparator,
 } from "./ui/command";
-import { Button } from "./ui/button";
-import { Clock, Loader2, Search, XCircle } from "lucide-react";
 import { format } from "date-fns";
+import { Button } from "./ui/button";
+import { Clock, Loader2, Search, Star, XCircle } from "lucide-react";
 
 const CitySearch = () => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
+  const { favorites } = useFavorite();
   const { data: locations, isLoading } = useLocationSearch(query);
   const { history, clearHistory, addToHistory } = useSearchHistory();
 
@@ -62,6 +64,28 @@ const CitySearch = () => {
           )}
 
           {/* Favorites Section */}
+          {favorites.length > 0 && (
+            <CommandGroup heading="Favorites">
+              {favorites.map((location) => (
+                <CommandItem
+                  key={location.id}
+                  value={`${location.lat}|${location.lon}|${location.name}|${location.country}`}
+                  onSelect={handleSelect}
+                >
+                  <Star className="mr-2 h-4 w-4 text-yellow-500" />
+                  <span>{location.name}</span>
+                  {location.state && (
+                    <span className="text-sm text-muted-foreground">
+                      , {location.state}
+                    </span>
+                  )}
+                  <span className="text-sm text-muted-foreground">
+                    , {location.country}
+                  </span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
 
           {/* Search History Section */}
           {history.length > 0 && (
